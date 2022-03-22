@@ -30,7 +30,7 @@ const Create: React.FC<Create> = ({ user }) => {
             description: description,
             imageUrl: url,
             postedBy: `/users/${user?.uid}`,
-            createdAt: serverTimestamp,
+            createdAt: timestamp(),
             tags: tags,
           };
           // console.log(db);
