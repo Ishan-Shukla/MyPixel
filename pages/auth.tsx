@@ -1,6 +1,8 @@
-import { NextPage } from "next";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useRouter } from "next/router";
+import { storage, db, timestamp } from "../firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { FunctionComponent, useEffect } from "react";
 import { auth } from "../firebase";
 import { type } from "os";
@@ -15,10 +17,30 @@ const Auth: React.FC<User> = ({ user }) => {
     console.log(user);
     if (user) router.push("/");
     return () => {
-      console.log("Already Logged in");
+      console.log("Logged in");
     };
   }, []);
 
+  const saveUser = async (user: any) => {
+    try {
+      const docRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(docRef);
+      if (userSnap.exists()) {
+        console.log("User Already in server");
+      } else {
+        const userData = {
+          name: user.displayName,
+          email: user.email,
+          uid: user.uid,
+        };
+        await setDoc(docRef, userData);
+        console.log("User Created Succesfully");
+      }
+    } catch (error) {
+      console.log("An Unexpected Error Occurred while uploading user data: ");
+      console.log(error);
+    }
+  };
   const handleLogin = () => {
     const provider = new GoogleAuthProvider();
     // const auth = getAuth();
@@ -33,6 +55,7 @@ const Auth: React.FC<User> = ({ user }) => {
         // The signed-in user info.
         const user = result.user;
         console.log(user);
+        saveUser(user);
         router.push("/");
         // ...
       })

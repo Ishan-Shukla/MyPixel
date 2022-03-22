@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { firestore, Timestamp } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
@@ -16,9 +16,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const auth = getAuth();
+const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
-const timestamp = Timestamp.now();
-const serverTimestamp = timestamp.toMillis();
-export { auth, db, storage, serverTimestamp };
+const timestamp = Timestamp.now;
+export { auth, db, storage, timestamp };

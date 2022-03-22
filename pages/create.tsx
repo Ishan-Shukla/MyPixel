@@ -1,9 +1,11 @@
 import { NextPage } from "next";
 import { useState, useEffect } from "react";
-import { storage, db, serverTimestamp } from "../firebase";
+import { useRouter } from "next/router";
+import { storage, db, timestamp } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { error } from "console";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 type Create = {
   user: Object | null | any;
@@ -16,24 +18,37 @@ const Create: React.FC<Create> = ({ user }) => {
   const [url, setUrl] = useState<string>("");
   const [tag, setTag] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
+  const router = useRouter();
 
-  //   useEffect(() => {
-  //     if (url) {
-  //       try {
-  //         db.collection("posts").add({
-  //           title,
-  //           description,
-  //           imageUrl: url,
-  //           postedBy: user?.uid,
-  //           createdAt: serverTimestamp,
-  //         });
-  //         console.log("Post Created Succesfully");
-  //       } catch (error) {
-  //         console.log("An Unexpected Error Occurred: ");
-  //         console.log(error);
-  //       }
-  //     }
-  //   }, [url]);
+  useEffect(() => {
+    const uploadPost = async () => {
+      if (url) {
+        try {
+          const serverTimestamp = timestamp().toMillis();
+          const postData = {
+            title: title,
+            description: description,
+            imageUrl: url,
+            postedBy: `/users/${user?.uid}`,
+            createdAt: serverTimestamp,
+            tags: tags,
+          };
+          // console.log(db);
+          const docRef = doc(db, "posts", uuidv4());
+          // console.log(docRef);
+          // const postRef = await addDoc(collection(db, "posts"), postData);
+          const postRef = await setDoc(docRef, postData);
+          console.log("Post Created Succesfully");
+          console.log(postRef);
+          router.push("/");
+        } catch (error) {
+          console.log("An Unexpected Error Occurred while uploading post: ");
+          console.log(error);
+        }
+      }
+    };
+    uploadPost();
+  }, [url]);
 
   const formatBytes = (bytes: number, decimals: number = 2) => {
     if (bytes === 0) return "0 Bytes";
@@ -87,7 +102,7 @@ const Create: React.FC<Create> = ({ user }) => {
         console.log("Upload Complete Sucessfully");
         console.log("snapshot:");
         console.log(snapshot);
-        getDownloadURL(ref(imageRef, path))
+        getDownloadURL(ref(storage, snapshot.ref.fullPath))
           .then((url) => {
             console.log("File Available at: " + url);
             setUrl(url);
@@ -154,7 +169,7 @@ const Create: React.FC<Create> = ({ user }) => {
           <input type="file" onChange={(e) => handleFile(e)} />
         </div>
         <div>
-          <input type="text" />
+          <button onClick={() => SubmitDetails()}>Submit</button>
         </div>
       </div>
     </div>
