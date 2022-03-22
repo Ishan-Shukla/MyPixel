@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
+import MasonryContainer from "../components/MasonryContainer";
 
 type HomeProps = {
   initialPosts: Object[] | any;
@@ -43,29 +44,8 @@ const Home: React.FC<HomeProps> = ({ initialPosts }) => {
     }
   };
   return (
-    <div>
-      This is Home Page.
-      {posts.map((post: any) => {
-        return (
-          <div key={post.createdAt}>
-            <div>
-              <Image
-                width={100}
-                height={100}
-                src={post.imageUrl}
-                alt={post.title}
-              />
-              <span>{post.title}</span>
-            </div>
-            <div>
-              <p>{post.description}</p>
-            </div>
-            <div>
-              <p>{post.postedBy}</p>
-            </div>
-          </div>
-        );
-      })}
+    <div className="relative top-10 lg:top-20 min-h-screen h-fit ">
+      <MasonryContainer posts={posts} />
       {end == false ? (
         <button
           className="btn #fb8c00 orange darken-1"
@@ -85,7 +65,7 @@ export async function getServerSideProps(context: any) {
   const q: any = query(
     collection(db, "posts"),
     orderBy("createdAt", "desc"),
-    limit(3)
+    limit(20)
   );
   const querySnapshot = await getDocs(q);
   // querySnapshot.forEach((doc) => {
