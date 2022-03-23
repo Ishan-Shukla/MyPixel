@@ -148,6 +148,13 @@ const Create: React.FC<Create> = ({ user }) => {
       });
   };
 
+  if (!user) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <PulseLoader />
+      </div>
+    );
+  }
   return (
     <>
       <div className="relative top-20 flex min-h-screen max-h-fit bg-gray-200 items-center justify-center">

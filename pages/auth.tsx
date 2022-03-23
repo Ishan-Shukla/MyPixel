@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { auth } from "../firebase";
 import { FcGoogle } from "react-icons/fc";
 import { FaGoogle } from "react-icons/fa";
+import { PulseLoader } from "react-spinners";
 
 type User = {
   user: Object | null;
@@ -62,6 +63,13 @@ const Auth: React.FC<User> = ({ user }) => {
         const credential = GoogleAuthProvider.credentialFromError(error);
       });
   };
+  if (user) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <PulseLoader />
+      </div>
+    );
+  }
   return (
     <div className="flex justify-start items-center flex-col h-screen w-full">
       <div className="flex flex-col items-center h-full w-full">
