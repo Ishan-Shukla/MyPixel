@@ -1,3 +1,4 @@
+import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { auth } from "../firebase";
 import { useEffect, useState } from "react";
