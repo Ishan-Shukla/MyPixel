@@ -2,6 +2,7 @@ import Link from "next/link";
 import AppLink from "./AppLink";
 import { useRouter } from "next/router";
 import { RiPixelfedLine } from "react-icons/ri";
+import { IoIosArrowBack } from "react-icons/io";
 import { FiLogOut } from "react-icons/fi";
 import { FiLogIn } from "react-icons/fi";
 import { auth } from "../firebase";
@@ -30,10 +31,18 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
             <Link href={"/"}>
               <a>
                 {/* <div className="pl-8 p-5 text-2xl">myPixel</div> */}
-                <RiPixelfedLine
-                  className="ml-4 xl:ml-8 2xl:ml-10 mr-4 lg:scale-105 xl:scale-110 2xl:scale-150"
-                  size={"2em"}
-                />
+                {router.pathname === "/" && (
+                  <RiPixelfedLine
+                    className="ml-4 xl:ml-8 2xl:ml-10 mr-4 lg:scale-105 xl:scale-110 2xl:scale-150"
+                    size={"2em"}
+                  />
+                )}
+                {router.pathname !== "/" && (
+                  <IoIosArrowBack
+                    className="ml-4 xl:ml-8 2xl:ml-10 mr-4 lg:scale-105 xl:scale-110 2xl:scale-150"
+                    size={"2em"}
+                  />
+                )}
               </a>
             </Link>
           </div>
@@ -45,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
           {!user && router.pathname !== "/auth" && (
             <Link href={"/auth"}>
               <a>
-                <div className="pl-3 pr-3 pt-1 pb-1 text-sm lg:text-base xl:text-xl whitespace-nowrap text-slate-800 bg-white cursor-pointer rounded-full">
+                <div className="pl-2 pr-2 pt-1 pb-1 font-semibold text-xs lg:text-base xl:text-xl whitespace-nowrap text-slate-800 bg-white cursor-pointer rounded-full">
                   Log In
                 </div>
               </a>
@@ -53,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
           )}
           {user && (
             <div
-              className="pl-3 pr-3 pt-1 pb-1 text-sm lg:text-base xl:text-xl whitespace-nowrap text-slate-800 bg-white cursor-pointer rounded-full"
+              className="pl-2 pr-2 pt-1 pb-1 font-semibold text-xs lg:text-base xl:text-xl whitespace-nowrap text-slate-800 bg-white cursor-pointer rounded-full"
               onClick={logOut}>
               Log Out
             </div>

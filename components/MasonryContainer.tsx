@@ -16,14 +16,16 @@ type MasonaryProps = {
   posts: any[];
 };
 
-const MasonryContainer: React.FC<MasonaryProps> = ({ posts }) => {
+const MasonryContainer: React.FC<MasonaryProps> = ({
+  posts,
+}) => {
   return (
     <div className="p-10">
       <Masonry
         className="flex animate-slide-fwd"
         breakpointCols={breakpointColumnsObj}>
         {posts?.map((post) => (
-          <Card key={post.createdAt} post={post} />
+          <Card key={post.id} post={post} />
         ))}
       </Masonry>
     </div>

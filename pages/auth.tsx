@@ -76,7 +76,7 @@ const Auth: React.FC<User> = ({ user }) => {
   return (
     <div className="flex justify-start items-center flex-col h-screen w-full">
       <div className="flex flex-col items-center h-full w-full">
-        <div className="mt-32 cursor-default ">
+        <div className="mt-32 xl:mt-56 cursor-default ">
           <div className="flex bg-slate-300 rounded-full md:p-4 p-2 border-2 border-slate-500">
             <FcGoogle size={"2em"} />
           </div>
