@@ -1,11 +1,9 @@
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useRouter } from "next/router";
-import { storage, db, timestamp } from "../firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
-import { FunctionComponent, useEffect } from "react";
+import { db } from "../firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { useEffect } from "react";
 import { auth } from "../firebase";
-import { type } from "os";
 import { FcGoogle } from "react-icons/fc";
 import { FaGoogle } from "react-icons/fa";
 
@@ -46,31 +44,22 @@ const Auth: React.FC<User> = ({ user }) => {
   };
   const handleLogin = () => {
     const provider = new GoogleAuthProvider();
-    // const auth = getAuth();
     signInWithPopup(auth, provider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential?.accessToken;
         console.log(token);
         console.log("---------");
-
-        // The signed-in user info.
         const user = result.user;
         console.log(user);
         saveUser(user);
         router.push("/");
-        // ...
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
-        // The email of the user's account used.
         const email = error.email;
-        // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
       });
   };
   return (
@@ -96,27 +85,3 @@ const Auth: React.FC<User> = ({ user }) => {
 };
 
 export default Auth;
-
-{
-  /* <div className="relative flex bg-gray-200 items-center justify-center mb-32">
-<div className=" absolute top-24 h-4/6 flex flex-col bg-white rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
-  <div className="flex justify-center py-4">
-    <div className="flex bg-slate-300 rounded-full md:p-4 p-2 border-2 border-slate-500">
-      <FcGoogle size={"2em"} />
-    </div>
-  </div>
-  <div className="flex justify-center">
-    <div className="flex">
-      <h1 className="text-gray-600 font-bold md:text-2xl text-xl">
-        LOGIN
-      </h1>
-    </div>
-  </div>
-  <div className="flex items-center justify-center  pt-5 pb-5">
-    <button className="w-auto bg-gray-800 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2">
-      Cancel
-    </button>
-  </div>
-</div>
-</div> */
-}

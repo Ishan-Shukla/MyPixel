@@ -1,6 +1,3 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import { useState } from "react";
 import { db } from "../firebase";
 import {
@@ -11,11 +8,8 @@ import {
   limit,
   getDocs,
 } from "firebase/firestore";
-import styles from "../styles/Home.module.css";
-import Link from "next/link";
 import MasonryContainer from "../components/MasonryContainer";
 import { MdOutlineExpandMore } from "react-icons/md";
-import { IoMdClose } from "react-icons/io";
 import { BeatLoader } from "react-spinners";
 
 type HomeProps = {
@@ -88,9 +82,8 @@ export async function getServerSideProps(context: any) {
       id: docSnap.id,
     };
   });
-  // console.log(initialPosts);
 
   return {
-    props: { initialPosts }, // will be passed to the page component as props
+    props: { initialPosts },
   };
 }

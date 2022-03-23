@@ -1,4 +1,3 @@
-import { type } from "os";
 import React from "react";
 import Masonry from "react-masonry-css";
 import Card from "./Card";

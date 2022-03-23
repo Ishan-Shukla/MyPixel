@@ -1,11 +1,9 @@
-import { NextPage } from "next";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { storage, db, timestamp } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { error } from "console";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { BsFilePost } from "react-icons/bs";
 import { PulseLoader } from "react-spinners";
 
@@ -28,7 +26,6 @@ const Create: React.FC<Create> = ({ user }) => {
     const uploadPost = async () => {
       if (url) {
         try {
-          // const serverTimestamp = timestamp().toMillis();
           const postData = {
             title: title,
             description: description,
@@ -39,10 +36,7 @@ const Create: React.FC<Create> = ({ user }) => {
             postedBy: user.displayName,
             userProfilePic: user.photoURL,
           };
-          // console.log(db);
           const docRef = doc(db, "posts", uuidv4());
-          // console.log(docRef);
-          // const postRef = await addDoc(collection(db, "posts"), postData);
           const postRef = await setDoc(docRef, postData);
           setUploadStatus(false);
           console.log("Post Created Succesfully");
@@ -60,13 +54,10 @@ const Create: React.FC<Create> = ({ user }) => {
 
   const formatBytes = (bytes: number, decimals: number = 2) => {
     if (bytes === 0) return "0 Bytes";
-
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
     const sizes = ["Bytes", "KB", "MB", "GB"];
-
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   };
 
@@ -76,18 +67,13 @@ const Create: React.FC<Create> = ({ user }) => {
       const file = e?.target.files[0];
       console.log(file);
       var reader: FileReader = new FileReader();
-      // Read the cotents of Image File.
       reader.readAsDataURL(file);
       reader.onload = async function (e) {
-        //Initiate the JavaScript Image object.
         var image = new Image();
-        //Set the Base64 string return from FileReader as source.
         image.src = e?.target?.result as string;
         image.onload = () => {
           setImage(file);
           setImageUploadStatus(true);
-          // checkFile(true);
-          // setFileError("");
           console.log("Loaded Successfully");
           console.log("Height: " + image.height);
           console.log("Width: " + image.width);
@@ -147,7 +133,6 @@ const Create: React.FC<Create> = ({ user }) => {
                 );
                 break;
               case "storage/canceled":
-                // User canceled the upload
                 console.log("User canceled the upload");
                 break;
               case "storage/unknown":
@@ -279,52 +264,3 @@ const Create: React.FC<Create> = ({ user }) => {
 };
 
 export default Create;
-
-// <div classNameName=" flex pl-auto pr-auto justify-center">
-// <div classNameName="flex flex-col items-center relative top-20">
-//   <div classNameName="text-center text-xl">Create new Post</div>
-//   <input
-//     type="text"
-//     value={title}
-//     placeholder="Title"
-//     classNameName="mt-5 w-full border-2 border-slate-800 p-1 text-sm rounded-sm"
-//     onChange={(e) => setTitle(e.target.value)}
-//   />
-//   <textarea
-//     value={description}
-//     placeholder="Description"
-//     classNameName="mt-5 w-full h-24 border-2 border-slate-800 p-1 text-sm rounded-sm"
-//     onChange={(e) => setDescription(e.target.value)}
-//   />
-//   <textarea
-//     value={tag}
-//     placeholder="new Tag"
-//     classNameName="mt-5 w-full border-2 border-slate-800 p-1 text-sm rounded-sm"
-//     onChange={(e) => setTag(e.target.value)}
-//   />
-//   <button
-//     onClick={() => {
-//       setTags((prev) => [...prev, tag]);
-//       setTag("");
-//     }}>
-//     Add Tag
-//   </button>
-//   <input
-//     type="file"
-//     placeholder="Select Image"
-//     onChange={(e) => handleFile(e)}
-//     ref={refFileInput}
-//     accept="image/*"
-//     classNameName=""
-//   />
-//   <div>
-//     {/* <div>
-//       <span>File</span>
-//       <input type="file" onChange={(e) => handleFile(e)} />
-//     </div> */}
-//     <div>
-//       <button onClick={() => SubmitDetails()}>Submit</button>
-//     </div>
-//   </div>
-// </div>
-// </div>

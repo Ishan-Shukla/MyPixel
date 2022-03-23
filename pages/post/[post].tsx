@@ -54,7 +54,6 @@ const post: React.FC<postProp> = ({ post }) => {
 export default post;
 
 export async function getServerSideProps({ params }: { params: any }) {
-  // console.log(params);
   const docRef = doc(db, "posts", params.post);
   const docSnap: any = await getDoc(docRef);
   const post = {
@@ -62,38 +61,7 @@ export async function getServerSideProps({ params }: { params: any }) {
     createdAt: docSnap.data().createdAt.toMillis(),
     id: docSnap.id,
   };
-  // console.log(post);
-
   return {
     props: { post },
   };
-}
-
-{
-  /* <div className="grid grid-cols-1 justify-items-center">
-<div className="mt-20 ml-8 font-semibold text-2xl justify-self-start">
-  {post.title}
-</div>
-<img src={post.imageUrl} alt={post.title} className="w-5/6 mt-4"></img>
-<div className="flex items-center justify-center justify-self-start">
-  <div className="w-6 m-4">
-    <img
-      src={post.userProfilePic}
-      alt="Profile Pic"
-      className="rounded-full object-contain shadow-xl"
-    />
-  </div>
-  <div className=" text-xs">{post.postedBy}</div>
-</div>
-<label className="uppercase md:text-sm text-gray-500 text-light font-semibold">
-  Description
-</label>
-<div className="mt-2 ml-4 text-xl">{post.description}</div>
-<label className="uppercase md:text-sm text-gray-500 text-light font-semibold">
-  HashTags
-</label>
-{post.tags.map((tag: any) => (
-  <div key={tag}>{`#${tag}`}</div>
-))}
-</div> */
 }

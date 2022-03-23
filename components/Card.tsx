@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import placeHolder from "../public/grey.png";
 type CardProps = {
   post: any;
 };
@@ -22,20 +20,6 @@ const Card: React.FC<CardProps> = ({ post }) => {
             alt={post.title}
             className={`rounded-lg w-56 shadow-xl`}
           />
-          {/* {loaded && hover && (
-        <div classNameName="absolute bottom-2 left-2 text-xs flex items-center">
-          <div classNameName="w-8">
-            <img
-              src={post.userProfilePic}
-              alt="Profile Pic"
-              classNameName="rounded-full object-contain shadow-xl"
-            />
-          </div>
-          <div classNameName="ml-2 text-ellipsis w-5/6 text-primary2">
-            {post.postedBy}
-          </div>
-        </div>
-      )} */}
         </div>
       </a>
     </Link>
