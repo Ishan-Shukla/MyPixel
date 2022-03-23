@@ -1,29 +1,80 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
 import { useState } from "react";
 type CardProps = {
   post: any;
 };
 const Card: React.FC<CardProps> = ({ post }) => {
   const [loaded, setLoaded] = useState(false);
+  const datePosted = new Date(post.createdAt);
   return (
-    <Link href={`/post/${post.id}`}>
-      <a>
-        <div className="relative m-2 mb-4">
+    <div className=" m-4 mb-4 shadow-xl">
+      <div className="relative">
+        <div className=" shadow-xl">
+          <div className="bg-slate-700 rounded-t-lg text-white flex items-center">
+            <div className="w-6 m-3">
+              <img
+                src={post.userProfilePic}
+                alt="Profile Pic"
+                className="rounded-full object-contain shadow-xl"
+              />
+            </div>
+            <div className="relative">
+              <div className=" md:text-sm lg:text-base xl:text-lg">
+                {post.postedBy}
+              </div>
+              <div className="-mt-2 text-neutral-400">
+                {datePosted.toLocaleDateString()}
+              </div>
+            </div>
+          </div>
           {!loaded && (
-            <div className=" w-24 h-32 sm:w-32 sm:h-44 md:w-40 md:h-48 lg:w-44 lg:h-56 xl:w-44 2xl:w-52 2xl:h-64 animate-pulse rounded-lg bg-slate-400"></div>
+            <div className=" w-full h-32 sm:h-44 md:h-48 lg:h-56 2xl:h-64 border-l-2 border-r-2 border-slate-700 animate-pulse bg-slate-400"></div>
           )}
           <img
             src={post.imageUrl}
             onLoad={() => setLoaded(true)}
             loading="lazy"
             alt={post.title}
-            className={`rounded-lg w-56 shadow-xl`}
+            className={`w-full border-l-2 border-r-2 border-slate-700`}
           />
+          <div className="pl-2 pr-2 rounded-b-lg border-t-0 border-2 border-slate-700 ">
+            <div className=" pt-2">
+              <div className="text-light -mt-1 font-semibold">
+                {post.description}
+              </div>
+            </div>
+            <div className="flex flex-wrap">
+              {post.tags.map((tag: any) => (
+                <div
+                  key={tag}
+                  className=" text-light font-semibold -mt-1
+                   pr-1">{`#${tag}`}</div>
+              ))}
+            </div>
+          </div>
         </div>
-      </a>
-    </Link>
+      </div>
+    </div>
   );
 };
 
 export default Card;
+
+{
+  /* <Link href={`/post/${post.id}`}>
+<a>
+  <div className="relative m-2 mb-4">
+    {!loaded && (
+      <div className=" w-24 h-32 sm:w-32 sm:h-44 md:w-40 md:h-48 lg:w-44 lg:h-56 xl:w-44 2xl:w-52 2xl:h-64 animate-pulse rounded-lg bg-slate-400"></div>
+    )}
+    <img
+      src={post.imageUrl}
+      onLoad={() => setLoaded(true)}
+      loading="lazy"
+      alt={post.title}
+      className={`rounded-lg w-56 shadow-xl`}
+    />
+  </div>
+</a>
+</Link> */
+}
