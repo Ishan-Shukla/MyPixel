@@ -3,23 +3,21 @@ import Masonry from "react-masonry-css";
 import Card from "./Card";
 
 const breakpointColumnsObj = {
-  default: 4,
-  3000: 6,
-  2000: 5,
-  1200: 4,
-  1000: 3,
-  500: 2,
+  default: 5,
+  1536: 4,
+  1280: 3,
+  1024: 2,
+  768: 1,
+  640: 1,
 };
 
 type MasonaryProps = {
   posts: any[];
 };
 
-const MasonryContainer: React.FC<MasonaryProps> = ({
-  posts,
-}) => {
+const MasonryContainer: React.FC<MasonaryProps> = ({ posts }) => {
   return (
-    <div className="p-10">
+    <div className="p-6 pt-8 lg:pt-14 md:pl-12 md:pr-12">
       <Masonry
         className="flex animate-slide-fwd"
         breakpointCols={breakpointColumnsObj}>

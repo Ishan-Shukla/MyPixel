@@ -51,8 +51,8 @@ const Home: React.FC<HomeProps> = ({ initialPosts }) => {
         <MasonryContainer posts={posts} />
         {!loading && end == false ? (
           <div className="w-full" onClick={loadMore}>
-            <div className="absolute bottom-5 left-1/2">
-              <MdOutlineExpandMore scale={"5em"} />
+            <div className="absolute bottom-5 animate-bounce left-1/2">
+              <MdOutlineExpandMore size={"3em"} />
             </div>
           </div>
         ) : null}

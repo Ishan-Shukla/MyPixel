@@ -29,7 +29,7 @@ const Layout: React.FC<LayoutProps> = ({ pageTitle, user, children }) => {
             <Link href={"/create"}>
               <a>
                 <BsPlusCircleFill
-                  className="fixed xl:scale-150 xl:right-4 xl:bottom-12 bottom-6 right-2 z-20"
+                  className="fixed bottom-6 right-2 xl:scale-150 xl:right-4 xl:bottom-12 z-20"
                   size={"2em"}
                 />
               </a>
